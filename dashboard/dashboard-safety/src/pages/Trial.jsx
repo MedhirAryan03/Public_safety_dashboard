@@ -32,15 +32,15 @@ const Trial = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
-              <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-blue-400">Premium Access Tier</span>
+              <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-blue-400">Urban Ride Safety System</span>
             </div>
 
             <h1 className="text-6xl lg:text-8xl font-bold text-white tracking-tight leading-[0.9] mb-8">
-              Deploy <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">Intelligence.</span>
+              Urban Ride <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">Safety.</span>
             </h1>
 
             <p className="text-xl text-slate-400 leading-relaxed mb-10 max-w-lg">
-              Unlock the full suite of predictive analytics and real-time monitoring. The first 30 days are on us.
+              Unlock the full suite of predictive analytics and real-time monitoring for urban commutes.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -54,7 +54,7 @@ const Trial = () => {
                 </svg>
               </button>
               <div className="flex items-center px-6 py-4 rounded-2xl bg-white/5 border border-white/5 backdrop-blur-sm">
-                <span className="text-slate-400 text-sm">Trial ends after <strong>30 days</strong>. No obligation.</span>
+                <span className="text-slate-400 text-sm">System Active. <strong>Continuous</strong> Threat Monitoring.</span>
               </div>
             </div>
 
@@ -140,7 +140,7 @@ const Trial = () => {
 
       {/* FOOTER STRIP */}
       <footer className="relative z-50 px-8 py-4 border-t border-white/5 flex items-center justify-between text-[10px] uppercase tracking-widest text-slate-500 font-bold">
-        <div>© 2025 NEXUS GLOBAL</div>
+        <div>© 2025 URBAN RIDE SAFETY PROJECT</div>
         <div className="flex space-x-6">
           <a href="#" className="hover:text-white transition-colors">Privacy</a>
           <a href="#" className="hover:text-white transition-colors">Infrastructure</a>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-  const navigate = useNavigate(); // 2. Initialize navigate
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     origin: '',
     destination: '',
@@ -10,7 +10,13 @@ const Home = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const cities = ["Select Location...", "Andheri", "Bandra", "Colaba", "Connaught Place", "Dadar", "Dwarka", "Juhu", "Karol Bagh", "Lajpat Nagar", "Saket"];
+  // Categorized for a more "Systemic" feel
+  const zones = {
+    "North Sector": ["Delhi - Karol Bagh", "Delhi - Rohini", "Delhi - Dwarka"],
+    "South Sector": ["Delhi - Saket", "Delhi - Lajpat Nagar", "Mumbai - Colaba"],
+    "West Sector": ["Mumbai - Andheri", "Mumbai - Juhu", "Mumbai - Bandra"],
+    "Central Business District": ["Delhi - Connaught Place", "Mumbai - Dadar"]
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,161 +33,155 @@ const Home = () => {
         }),
       });
 
-      if (!response.ok) throw new Error("Network response was not ok");
-
+      if (!response.ok) throw new Error("API Failure");
       const data = await response.json();
-      
-      // 3. Navigate to Dashboard and pass the result data
+
+      // Navigate to Dashboard with results
       navigate('/dashboard', { state: { result: data, searchParams: formData } });
 
     } catch (error) {
-      console.error("API Error:", error);
-      alert("Failed to fetch risk analysis. Please try again.");
+      console.error("Analysis Error:", error);
+      alert("System could not correlate data. Please check connection.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-white flex flex-col font-sans selection:bg-blue-500/30">
-      
-      {/* --- HERO SECTION --- */}
-      <main className="relative flex-1 container mx-auto px-6 lg:px-12 flex flex-col lg:grid lg:grid-cols-12 gap-12 items-center py-20">
-        
-        {/* BACKGROUND AMBIANCE */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] right-[-10%] w-[70%] h-[70%] bg-blue-600/10 blur-[120px] rounded-full"></div>
-          <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[50%] bg-indigo-500/10 blur-[100px] rounded-full"></div>
-        </div>
+    <div className="min-h-screen bg-[#0d0f14] text-slate-200 flex flex-col font-sans selection:bg-blue-500/30">
 
-        {/* 1. LEFT SIDE: SYSTEM DATA & VALUE PROP */}
-        <div className="relative z-10 lg:col-span-7 space-y-10">
+      {/* --- ANALYTICAL BACKGROUND --- */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20"
+          style={{ backgroundImage: `radial-gradient(#1e293b 1px, transparent 1px)`, backgroundSize: '40px 40px' }}></div>
+        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-600/5 blur-[120px] rounded-full"></div>
+      </div>
+
+      <main className="relative z-10 flex-1 container mx-auto px-6 lg:px-16 flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center py-16">
+
+        {/* LEFT: PROJECT IDENTITY */}
+        <div className="lg:col-span-7 space-y-12">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-blue-400 text-[10px] font-bold tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6] animate-pulse"></span>
-              Neural Risk Assessment Engine
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[11px] font-bold tracking-[0.2em] uppercase">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              Geospatial Crime Intelligence v2.1
             </div>
-            
-            <h1 className="text-5xl lg:text-8xl font-black tracking-tight leading-[0.95]">
-              Quantify <br />
-              <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent italic">Urban Risk.</span>
+
+            <h1 className="text-6xl lg:text-7xl font-bold tracking-tight leading-tight text-white">
+              Urban Ride <br />
+              <span className="text-blue-500 font-light">Safety Analytics</span>
             </h1>
-            
-            <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
-              Transitioning from reactive safety to <span className="text-white font-medium">proactive intelligence</span>. 
-              Our platform analyzes micro-trends in urban crime data to generate real-time safety heuristics for your specific route.
+
+            <p className="text-xl text-slate-400 max-w-2xl leading-relaxed font-light">
+              Utilizing <span className="text-slate-200 font-medium">Historical Incident Aggregation</span> and temporal modeling to provide commuters with data-driven risk assessments for metropolitan transit.
             </p>
           </div>
 
-          {/* DATA CARDS (Fills the space nicely) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl">
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm">
-              <p className="text-blue-500 text-xs font-bold uppercase tracking-tighter mb-1">Database</p>
-              <p className="text-2xl font-mono font-bold">14.2M</p>
-              <p className="text-[10px] text-slate-500">Indexed Incidents</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm">
-              <p className="text-indigo-500 text-xs font-bold uppercase tracking-tighter mb-1">Precision</p>
-              <p className="text-2xl font-mono font-bold">99.8%</p>
-              <p className="text-[10px] text-slate-500">Accuracy Rating</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-sm">
-              <p className="text-emerald-500 text-xs font-bold uppercase tracking-tighter mb-1">Updated</p>
-              <p className="text-2xl font-mono font-bold">0.4s</p>
-              <p className="text-[10px] text-slate-500">Live Sync Interval</p>
-            </div>
+          {/* SYSTEM METRICS */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+            <MetricCard label="Data Integrity" value="High" sub="Verified Police Records" color="text-blue-400" />
+            <MetricCard label="Risk Resolution" value="500m" sub="Micro-Zone Accuracy" color="text-indigo-400" />
+            <MetricCard label="Model Latency" value="240ms" sub="Real-time Processing" color="text-emerald-400" />
           </div>
         </div>
 
-        {/* 2. RIGHT SIDE: THE FROSTED TERMINAL */}
-        <div className="relative z-10 lg:col-span-5 w-full">
-          <div className="relative p-[1px] rounded-[2.5rem] bg-gradient-to-b from-white/20 to-transparent">
-            <form 
-              onSubmit={handleSubmit}
-              className="bg-[#11141a]/90 backdrop-blur-2xl rounded-[2.5rem] p-8 lg:p-12 shadow-2xl"
-            >
-              <div className="mb-10 text-center">
-                <h2 className="text-xl font-bold tracking-tight">Generate Route Report</h2>
-                <p className="text-xs text-slate-500 mt-2 font-medium">Select your coordinate sectors for analysis</p>
-              </div>
+        {/* RIGHT: THE ANALYSIS ENGINE (FORM) */}
+        <div className="lg:col-span-5 w-full">
+          <div className="bg-[#161a23] border border-white/10 rounded-3xl p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
 
-              <div className="space-y-6">
-                {/* SELECT ORIGIN */}
-                <div className="group">
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Origin Point</label>
-                  <select 
-                    required
-                    className="w-full bg-white/[0.05] border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all cursor-pointer text-slate-300"
-                    onChange={(e) => setFormData({...formData, origin: e.target.value})}
-                  >
-                    {cities.map(c => <option key={c} value={c === cities[0] ? "" : c} className="bg-[#11141a]">{c}</option>)}
-                  </select>
-                </div>
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold text-white">Safety Parameters</h2>
+              <p className="text-sm text-slate-500 font-medium">Configure transit variables for risk modeling</p>
+            </div>
 
-                {/* SELECT DESTINATION */}
-                <div className="group">
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Destination Sector</label>
-                  <select 
-                    required
-                    className="w-full bg-white/[0.05] border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all cursor-pointer text-slate-300"
-                    onChange={(e) => setFormData({...formData, destination: e.target.value})}
-                  >
-                    {cities.map(c => <option key={c} value={c === cities[0] ? "" : c} className="bg-[#11141a]">{c}</option>)}
-                  </select>
-                </div>
-
-                {/* TIME SELECT */}
-                <div className="group">
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Analysis Window</label>
-                  <input 
-                    type="datetime-local" 
-                    className="w-full bg-white/[0.05] border border-white/10 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-slate-300"
-                    value={formData.time}
-                    onChange={(e) => setFormData({...formData, time: e.target.value})}
-                  />
-                </div>
-
-                {/* SUBMIT */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full mt-4 relative overflow-hidden group bg-white text-[#0a0c10] py-5 rounded-2xl font-bold text-sm uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* ORIGIN */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Departure Point</label>
+                <select
+                  required
+                  className="w-full bg-[#0d0f14] border border-white/5 rounded-xl px-4 py-4 focus:ring-1 focus:ring-blue-500 transition-all text-slate-300 appearance-none"
+                  onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
                 >
-                  <span className="relative z-10">
-                    {isSubmitting ? "Running Neural Nets..." : "Run Risk Analysis"}
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-indigo-100 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </button>
+                  <option value="">Select Origin...</option>
+                  {Object.entries(zones).map(([zone, cities]) => (
+                    <optgroup label={zone} key={zone} className="bg-[#161a23]">
+                      {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
               </div>
 
-              <div className="mt-8 text-center">
-                <p className="text-[9px] text-slate-600 font-bold uppercase tracking-[0.3em]">End-to-End Encryption Layer Active</p>
+              {/* DESTINATION */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Arrival Destination</label>
+                <select
+                  required
+                  className="w-full bg-[#0d0f14] border border-white/5 rounded-xl px-4 py-4 focus:ring-1 focus:ring-blue-500 transition-all text-slate-300 appearance-none"
+                  onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                >
+                  <option value="">Select Destination...</option>
+                  {Object.entries(zones).map(([zone, cities]) => (
+                    <optgroup label={zone} key={zone} className="bg-[#161a23]">
+                      {cities.map(c => <option key={c} value={c}>{c}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
               </div>
+
+              {/* TIME */}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Commute Timestamp</label>
+                <input
+                  type="datetime-local"
+                  className="w-full bg-[#0d0f14] border border-white/5 rounded-xl px-4 py-4 focus:ring-1 focus:ring-blue-500 transition-all text-slate-300"
+                  value={formData.time}
+                  onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                />
+              </div>
+
+              {/* ACTION */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 text-white py-4 rounded-xl font-bold text-xs uppercase tracking-[0.2em] transition-all shadow-lg shadow-blue-900/20"
+              >
+                {isSubmitting ? "Processing Dataset..." : "Generate Risk Assessment"}
+              </button>
             </form>
           </div>
         </div>
       </main>
 
-      {/* --- FEATURE BAR (Fills the bottom) --- */}
-      <section className="border-y border-white/5 bg-white/[0.01] py-12">
-        <div className="container mx-auto px-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-          <Feature icon="⚡" title="Real-time Feed" desc="Live police data integration." />
-          <Feature icon="🛡️" title="Route Guard" desc="Machine learning pathing." />
-          <Feature icon="📊" title="Heat Mapping" desc="Geospatial risk visualization." />
-          <Feature icon="🧬" title="DNA Heuristics" desc="Pattern recognition algorithms." />
+      {/* --- SYSTEM CAPABILITIES --- */}
+      <section className="border-t border-white/5 bg-[#0d0f14] py-10">
+        <div className="container mx-auto px-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+          <Capability title="Temporal Analysis" desc="Risk variance by hour and day." />
+          <Capability title="Hotspot Mapping" desc="Identification of high-incident clusters." />
+          <Capability title="Predictive Scoring" desc="Statistical likelihood of incident occurrence." />
+          <Capability title="Path Optimization" desc="Safety-first route recommendation logic." />
         </div>
       </section>
     </div>
   );
 };
 
-const Feature = ({ icon, title, desc }) => (
-  <div className="flex items-start gap-4">
-    <div className="text-2xl">{icon}</div>
-    <div>
-      <h4 className="text-sm font-bold text-white uppercase tracking-wider">{title}</h4>
-      <p className="text-xs text-slate-500 mt-1">{desc}</p>
-    </div>
+const MetricCard = ({ label, value, sub, color }) => (
+  <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 backdrop-blur-md">
+    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-2">{label}</p>
+    <p className={`text-2xl font-bold ${color}`}>{value}</p>
+    <p className="text-[10px] text-slate-600 font-medium">{sub}</p>
+  </div>
+);
+
+const Capability = ({ title, desc }) => (
+  <div className="space-y-2">
+    <h4 className="text-[11px] font-bold text-white uppercase tracking-widest">{title}</h4>
+    <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
   </div>
 );
 

@@ -22,7 +22,7 @@ def create_app():
     
     # Load model on startup
     print("\n" + "="*80)
-    print("🚀 INITIALIZING CRIME PREDICTION API")
+    print("[*] INITIALIZING CRIME PREDICTION API")
     print("="*80)
     
     from .model_loader import model_loader
@@ -30,7 +30,7 @@ def create_app():
     
     
     print("\n" + "="*80)
-    print("✅ API READY TO ACCEPT REQUESTS")
+    print("[OK] API READY TO ACCEPT REQUESTS")
     print("="*80 + "\n")
     
     return app
